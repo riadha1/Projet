@@ -54,10 +54,10 @@ int main(int argc, char** argv)
     offset.x = 0;
     offset.y = 0;
     int mx,my;
-//    if(Mix_OpenAudio(88200,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,1024)==-1)
-  //   	{
-	//	printf("audio no can do %s\n",Mix_GetError());
-	 //   }
+    if(Mix_OpenAudio(88200,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,1024)==-1)
+     	{
+		      printf("audio no can do %s\n",Mix_GetError());
+	    }
 	Mix_Music *music;
   Mix_Chunk *btnsnd;
   Mix_OpenAudio(88200,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,1024);
@@ -65,7 +65,7 @@ int main(int argc, char** argv)
 	music=Mix_LoadMUS("mainmenu.mp3");
 	Mix_PlayMusic(music,-1);
 
-    if( TTF_Init() == -1 ) //ktiba
+    if( TTF_Init() == -1 )
     {
         printf( "Can't TTF:  %s\n", SDL_GetError( ) );
         return EXIT_FAILURE;
@@ -82,9 +82,6 @@ int main(int argc, char** argv)
         printf( "Can't init SDL:  %s\n", SDL_GetError( ) );
         return EXIT_FAILURE;
     }
-
-
-
 
     screen = SDL_SetVideoMode( 1920, 1080, 32, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);//| SDL_RESIZABLE); );
 
@@ -110,7 +107,6 @@ int main(int argc, char** argv)
   {
     //background render+get ticks
     SDL_BlitSurface(image,&rects[framej][frame],screen,&offset);
-    //SDL_Flip(screen);
     start=SDL_GetTicks();
     frame++;
     if(frame==8)
@@ -243,7 +239,8 @@ int main(int argc, char** argv)
         {
           if( event.button.button == SDL_BUTTON_LEFT )
         {
-          switch(sett){
+          switch(sett)
+          {
             case 0:
               if(m == 1)
               {
@@ -397,7 +394,6 @@ int main(int argc, char** argv)
 							default:
 							break;
 						}
-						//SDL_BlitSurface(image, &rects[framej][frame], screen, &offset);
 						}
 
 				break;
@@ -410,8 +406,9 @@ int main(int argc, char** argv)
     if(1000/fps>SDL_GetTicks()-start)
     {
     SDL_Delay( 1000/fps-(SDL_GetTicks()-start) );
-    }
+  }
 		}
+    //outside of the menu cycle
     TTF_CloseFont(font);
     Mix_FreeChunk(btnsnd);
     Mix_FreeMusic(music);
