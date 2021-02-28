@@ -7,7 +7,7 @@
 #include <SDL/SDL_image.h>
 //#include "header.h"
 
-void setrects(SDL_Rect clips[12][8])
+void setrects(SDL_Rect clips[13][8])
 {
   for(int j=0;j<12;j++)
   {
@@ -27,7 +27,6 @@ void setrects(SDL_Rect clips[12][8])
     clips[12][i].w=1920;
   }
 }
-
 
 int main(int argc, char** argv)
 {
@@ -57,13 +56,9 @@ s = 1;
     offset.x = 0;
     offset.y = 0;
     int mx,my;
-    if(Mix_OpenAudio(88200,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,1024)==-1)
-     	{
-		      printf("audio no can do %s\n",Mix_GetError());
-	    }
+  Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,4096);
 	Mix_Music *music;
   Mix_Chunk *btnsnd;
-  Mix_OpenAudio(88200,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,1024);
   btnsnd=Mix_LoadWAV("btnsnd.wav");
 	music=Mix_LoadMUS("mainmenu.mp3");
 	Mix_PlayMusic(music,-1);
@@ -73,7 +68,7 @@ s = 1;
         printf( "Can't TTF:  %s\n", SDL_GetError( ) );
         return EXIT_FAILURE;
     }
-    if(font==NULL) //ktiba
+    if(font==NULL)
     {
         printf( "Can't font bruh:  %s\n", SDL_GetError( ) );
         return EXIT_FAILURE;
@@ -103,7 +98,7 @@ s = 1;
         printf( "Can't set video mode: %s\n", SDL_GetError( ) );
         return EXIT_FAILURE;
     }
-    SDL_Rect rects[12][8];
+    SDL_Rect rects[13][8];
     setrects(rects);
     if (image==NULL)
     {
@@ -325,7 +320,7 @@ s = 1;
       }
 				case SDL_QUIT:
         {
-          TTF_CloseFont(font);
+        /*  TTF_CloseFont(font);
           Mix_FreeChunk(btnsnd);
           Mix_FreeMusic(music);
           Mix_CloseAudio();
@@ -339,7 +334,9 @@ s = 1;
           SDL_FreeSurface(barbg);
           SDL_FreeSurface(skelly);
           SDL_FreeSurface(screen);
+          */
 					quit = 1;
+
 				}
 				break;
 				case SDL_KEYDOWN:
@@ -491,18 +488,19 @@ s = 1;
     SDL_FreeSurface(bar);
     SDL_FreeSurface(barbg);
     SDL_FreeSurface(skelly);
-    SDL_FreeWAV("btnsnd.wav");
+    //SDL_FreeWAV(btnsnd);
     TTF_CloseFont(font);
     Mix_FreeChunk(btnsnd);
     Mix_FreeMusic(music);
     Mix_CloseAudio();
     SDL_FreeSurface(image);
-    for (int i=0;i<3;i++)
-    {
-      SDL_FreeSurface(text1[i]);
-      SDL_FreeSurface(text2[i]);
-    }
-    SDL_FreeSurface(screen);
+      for (int i=0;i<3;i++)
+      {
+        SDL_FreeSurface(text1[i]);
+        SDL_FreeSurface(text2[i]);
+      }
+    TTF_Quit();
+    //SDL_FreeSurface(screen);
     SDL_Quit();
-    return EXIT_SUCCESS;
+    return 0;
 }
