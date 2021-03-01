@@ -46,7 +46,7 @@ s = 1;
     strcpy (a[2],"Exit");
     char b[3][20];
     strcpy (b[0],"Volume");
-    strcpy (b[1],"Fullscreen On");
+    strcpy (b[1],"Fullscreen Off");
     strcpy (b[2],"Back To Menu");
     SDL_Surface *text1[3],*text2[3],*image,*screen,*bar,*barbg,*skelly;
     SDL_Rect offset,postext,posvlm,poslid;
@@ -91,7 +91,7 @@ s = 1;
     bar=IMG_Load("Bar.png");
     barbg=IMG_Load("BarBG.png");
     skelly=IMG_Load("Skelly.png");
-    screen = SDL_SetVideoMode( 1920, 1080, 32, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+    screen = SDL_SetVideoMode( 1920, 1080, 32, SDL_HWSURFACE | SDL_RESIZABLE);
 
     if( screen == NULL )
     {
@@ -110,7 +110,7 @@ s = 1;
 	int kbon = 0;
 	int sett = 0;
   int vol=0;
-	int FS = 1;
+	int FS = 0;
   //start of menu cycle
 	while(quit == 0)
   {
@@ -497,7 +497,6 @@ s = 1;
       for (int i=0;i<3;i++)
       {
         SDL_FreeSurface(text1[i]);
-        SDL_FreeSurface(text2[i]);
       }
     TTF_Quit();
     //SDL_FreeSurface(screen);
