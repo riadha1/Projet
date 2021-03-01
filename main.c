@@ -320,23 +320,7 @@ s = 1;
       }
 				case SDL_QUIT:
         {
-        /*  TTF_CloseFont(font);
-          Mix_FreeChunk(btnsnd);
-          Mix_FreeMusic(music);
-          Mix_CloseAudio();
-          SDL_FreeSurface(image);
-          for (int i=0;i<3;i++)
-          {
-            SDL_FreeSurface(text1[i]);
-            SDL_FreeSurface(text2[i]);
-          }
-          SDL_FreeSurface(bar);
-          SDL_FreeSurface(barbg);
-          SDL_FreeSurface(skelly);
-          SDL_FreeSurface(screen);
-          */
 					quit = 1;
-
 				}
 				break;
 				case SDL_KEYDOWN:
@@ -413,7 +397,6 @@ s = 1;
               {
                 poslid.w = 0;
               }
-              //poslid.w = poslid.w - (((float)(10)/100) * 557);
               Mix_VolumeMusic(s*128);
             }
           }
@@ -499,7 +482,6 @@ s = 1;
         SDL_FreeSurface(text1[i]);
       }
     TTF_Quit();
-    //SDL_FreeSurface(screen);
     SDL_Quit();
     return 0;
 }
