@@ -5,7 +5,6 @@
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_image.h>
-//#include "header.h"
 
 void setrects(SDL_Rect clips[13][8])
 {
@@ -307,8 +306,6 @@ s = 1;
                 poslid.w=mx-posvlm.x;
                 s  = ((float)(mx-posvlm.x-107)/(665-107));
                 Mix_VolumeMusic(s*128);
-                printf( "Volume: %f %s\n", s, SDL_GetError( ) );
-
               }
             break;
             default:
