@@ -37,7 +37,7 @@ s = 1;
     int frame=0;
     int framej=0;
     Uint32 start;
-    const int fps=30;
+    const int fps=60;
     TTF_Font *font=NULL;
     char a[3][10];
     strcpy (a[0],"Play");
