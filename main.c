@@ -29,9 +29,8 @@ void setrects(SDL_Rect clips[13][8])
 
 int main(int argc, char** argv)
 {
-float s;
-s = 1;
-
+    float s;
+    s = 1;
     TTF_Init();
     int quit = 0;
     int frame=0;
