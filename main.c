@@ -72,7 +72,6 @@ s = 1;
         printf( "Can't font bruh:  %s\n", SDL_GetError( ) );
         return EXIT_FAILURE;
     }
-
 	offset.x = 0;
 	offset.y = 0;
   posvlm.x=960 - (386);
@@ -410,7 +409,6 @@ s = 1;
                   {
                     SDL_FreeSurface(text1[i]);
                   }
-
 								}
 								if(m == 2)
                 {
