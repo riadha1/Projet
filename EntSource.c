@@ -6,27 +6,28 @@
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_image.h>
 #include "EntHeader.h"
+#include "perso.h"
 
 void initEnnemi(Ennemi * e){
   switch(e->d.type){
-    case 1:
-      e->d.hp = 200;
+    case 1: //Regular
+      e->d.hp = 1;
       e->d.speed = 2;
       e->d.range = 20;
       //e->d.sprite = IMGLoad("");
       //e->d.rect.w = ??
       //e->d.rect.h = ??
       break;
-    case 2:
-      e->d.hp = 80;
+    case 2: //Ranged
+      e->d.hp = 1;
       e->d.speed = 3;
       e->d.range = 40;
       //e->d.sprite = IMGLoad("");
       //e->d.rect.w = ??
       //e->d.rect.h = ??
       break;
-    case 3:
-      e->d.hp = 300;
+    case 3: //Shield boy
+      e->d.hp = 2;
       e->d.speed = 1;
       e->d.range = 15;
       //e->d.sprite = IMGLoad("");
@@ -234,15 +235,21 @@ void deplacer( Ennemi * e){
   }*/
 }
 
-int collisionBB( personne p, Ennemi e){
+int collisionBB( perso p, Ennemi e){
   int col = 0;
-  if(Abs(e.d.x - p.posPlayer) <= e.d.rect.w + p.rect.w){
-    col = 1;
+  Ennemi tmp;
+  tmp = e;
+  while(tmp.suiv != NULL){
+    ss
+    if(Abs(e.d.x - p.posSprite.x) <= ((e.d.rect.w + p.rect.w) / 2))&&(Abs(e.d.y - p.posSprite.y) <= ((e.d.rect.h + p.rect.h) / 2)){ //Edit this cuz player instantly
+      col = 1;
+    }
+    else col = 0;
+    tmp = tmp->suiv;
   }
-  else col = 0;
   return col;
 }
 
-void deplacerIA( Ennemi * e){
+void deplacerIA( Ennemi * e){ //Allah ysahhel
 
 }
