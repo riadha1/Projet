@@ -1,19 +1,21 @@
 #ifndef LOT3_H_INCLUDED
 #define LOT3_H_INCLUDED
-
+#include "perso.h"
 typedef struct
 {
-  SDL_Surface *minimg;
+  SDL_Surface *minibg;
   SDL_Rect posminimap;
   SDL_Surface *minimc;
   SDL_Rect posminimc;
 }minimap;
-SDL_Rect MAJminimap(SDL_Rect posmc,int resize);
+SDL_Rect MAJminimap(perso p,minimap *m,int resize);//missing camera
 void freeminimap(minimap *m);
 void initmap(minimap *m);
 void displaymap(minimap m,SDL_Surface *screen);
 void displaytime(int *time);
-int collisionMC(character c, SDL_Surface *mask);
-int AI(grid g, int cpu);
+//Uint32 GetPixel(SDL_Surface *surf, int x, int y);
+SDL_Color GetPixel(SDL_Surface *pSurface, int x,int y);
+int collisionMC(perso p, SDL_Surface *mask);
+//int AI(grid g, int cpu);
 
 #endif // LOT3_H_INCLUDED
