@@ -36,6 +36,7 @@ int menu()
   int quit = 0;
   int frame=0;
   int framej=0;
+  int r;
   Uint32 start;
   const int fps=60;
   TTF_Font *font=NULL;
@@ -253,6 +254,10 @@ while(quit == 0)
         switch(sett)
         {
           case 0:
+            if(m == 0){
+              Mix_PlayChannel(-1, btnsnd, 0);
+              r = 1;
+            }
             if(m == 1)
             {
               Mix_PlayChannel(-1, btnsnd, 0);
@@ -475,6 +480,8 @@ while(quit == 0)
       SDL_FreeSurface(text1[i]);
     }
   TTF_Quit();
-  SDL_Quit();
-  return 0;
+  if(r == 0){
+    SDL_QUIT;
+  }
+  return r;
 }

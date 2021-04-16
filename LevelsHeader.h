@@ -1,5 +1,5 @@
-#ifndef FONCTIONS_H_
-#define FONCTIONS_H_
+#ifndef LEVELSHEADER_H_
+#define LEVELSHEADER_H_
 
 void initLevel(int n);
 void Level1(int n);

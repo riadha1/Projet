@@ -7,8 +7,9 @@
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_image.h>
 #include "LevelsHeader.h"
-#include "EntHeader.h"
+#include "Entite.h"
 #include "perso.h"
+
 
 
 void initLevel(int n){
@@ -26,18 +27,17 @@ void initLevel(int n){
 }
 
 void Level1(int n){
-  int Nbe = 15;
-  Ennemi * e;
+  int Nbe = 1;
   int colEnt = 0;
-
+  Ennemi e[10];
   //Init functions
-  initGlobalEnnemi(Nbe, e, n);
+  //initGlobalEnnemi(Nbe, e, n);
+  initEnnemi(e);
 
 //Init SDL
   if( SDL_Init( SDL_INIT_VIDEO ) == -1 )
     	{
-        printf( "Can't init SDL:  %s\n", SDL_GetError( ) );
-        return EXIT_FAILURE;
+        //printf( "Can't init SDL:  %s\n", SDL_GetError( ) );
     	}
 
   SDL_Surface *screen;
@@ -51,11 +51,10 @@ void Level1(int n){
 	screen = SDL_SetVideoMode( 1366, 768, 32, SDL_HWSURFACE | SDL_RESIZABLE);
   if( screen == NULL )
     	{
-        printf( "Can't set video mode: %s\n", SDL_GetError( ) );
-        return EXIT_FAILURE;
+        //printf( "Can't set video mode: %s\n", SDL_GetError( ) );
     	}
 
-  init(&p,1);
+init(&p,1);
 
 //Main while cycle
 	while(quit == 0)
@@ -63,8 +62,8 @@ void Level1(int n){
   		SDL_FillRect( screen, &screen->clip_rect, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
   		afficherPerso(p, screen);
       afficherEnnemi(e, screen);
-      animerEnnemi(&e);
-      deplacer(&e);
+      animerEnnemi(e);
+      deplacer(e);
       colEnt = collisionBB(p, e);
     //Event cycle
 		while(SDL_PollEvent(&event))
@@ -105,13 +104,13 @@ void Level1(int n){
 				break;
 			}
 		}
-			saut(&p);
+		saut(&p);
     	deplacerPerso(&p);
     	SDL_Flip(screen);
       SDL_Delay(10);
 	}
     //outside of the menu cycle
     SDL_FreeSurface(p.sprite);
+    Liberer(e);
     SDL_Quit();
-    return EXIT_SUCCESS;
 }

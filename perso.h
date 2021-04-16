@@ -1,5 +1,5 @@
-#ifndef HEADER_H_INCLUDED
-#define HEADER_H_INCLUDED
+#ifndef PERSO_H_INCLUDED
+#define PERSO_H_INCLUDED
 
 typedef struct
 {
@@ -11,6 +11,7 @@ typedef struct
 	int Signal;
 	float VarX;
 	int col;
+	int ground;
 	int isJump;
 	float speed;
 
