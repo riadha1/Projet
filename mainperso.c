@@ -21,8 +21,8 @@ int main(int argc, char** argv)
 		  perso p;
 		  int quit=0;
 		  int Jump = 0;
-		  //int Col = 1;
-		  //int VarX = 0;
+      
+		  
 
 	
  //////////////////////////////////////
@@ -52,45 +52,48 @@ int main(int argc, char** argv)
     		if(event.key.keysym.sym == SDLK_RIGHT){
               p.Signal = 1;
               p.direction = 1;
-          
-           
                 printf("right\n");
                 
     		}
     		if(event.key.keysym.sym == SDLK_LEFT){
-                  p.Signal = 1;
+                  p.Signalb = 1;
                   p.direction = -1;
                 printf("left\n");
     		
             }
             if(event.key.keysym.sym == SDLK_UP){
-            	Jump = 1;
+            	p.isJump = 1;
             }
     		break;
     		case SDL_KEYUP:
-    			/*if(event.key.keysym.sym == SDLK_UP){
-            	Jump = 0;
-            }*/
-    		    p.Signal = 0;
+    			   if(event.key.keysym.sym == SDLK_RIGHT)
+             p.Signal = 0;
+            if(event.key.keysym.sym == SDLK_LEFT)
+              p.Signalb = 0;
+            if(event.key.keysym.sym == SDLK_UP){
+              Jump = 0;
+            }
+    		      
+            
     		break;
 				default:
 				break;
-			}
-		}
-		/*if(p.posScreen.y <= 100){
-			Col == 1;
-			p.posScreen.y = 100;
-		}
-   		if((Jump == 1)||(Col == 0)){
-   			Col = 0;
-   			VarX+=0.3;
-   		}
-   		if(Col == 1){
-   			VarX = 0;
-   		}
-   		p.posScreen.y = ((-(VarX-3.162)*(VarX-3.162))+10);*/
+			}}
 		
-    	deplacerPerso(&p);
+		
+        		
+		  
+        
+      saut(&p);
+            
+      deplacerPerso(&p);
+      animerPerso(&p);
+      
+      
+      if (p.frame == 5)
+        p.frame = 0;
+      if (p.frameb == 0)
+        p.frameb = 5;
     	
     	SDL_Flip(screen);
       SDL_Delay(10);
