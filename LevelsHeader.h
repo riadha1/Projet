@@ -6,4 +6,6 @@ void Level1(int n);
 void Level2();
 void Level3();
 
+void Demo(int n);
+
 #endif

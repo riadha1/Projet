@@ -103,9 +103,6 @@ void init(perso* p,int numperso)
 	p->col = 1;
 	p->speed = 0;
 	p->ground = p->posScreen.y;
-	//p->posSprite.h=0;
-	//p->posSprite.w=0;
-	//p->velocity = 0;
 }
 void afficherPerso(perso p,SDL_Surface* screen)
 {
@@ -116,12 +113,9 @@ void afficherPerso(perso p,SDL_Surface* screen)
 void deplacerPerso(perso *p){
 	if((p->Signal == 1)&&(p->speed < 20)){
 		p->speed+= 0.3;
-		printf("Inc\n");
 	}
 	if((p->Signal == 0)&&(p->speed > 0)){
 		p->speed-=  0.75;
-		printf("%f\n", p->speed);
-		//printf("Dec\n");
 	}
 	if(p->speed < 0){
 		p->speed = 0;

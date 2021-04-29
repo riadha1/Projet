@@ -9,6 +9,12 @@
 #include "Entite.h"
 #include "perso.h"
 
+//Math
+int mathSign(int x){
+  return (x > 0) - (x < 0);
+}
+
+//Main functions
 void initEnnemi(Ennemi e[]){
   for(int i = 0; i < 10; i++){
     e[i].hp = 1;
@@ -82,6 +88,7 @@ int collisionBB( perso p, Ennemi e[]){
 void animerEnnemi(Ennemi e[]){
   for(int i = 0; i < 10; i++){
     e[i].frame++;
+    SDL_Delay(1);
     if(e[i].frame > 4){
       e[i].frame = 0;
     }
@@ -91,5 +98,120 @@ void animerEnnemi(Ennemi e[]){
 void Liberer(Ennemi e[]){
   for(int i = 0; i < 10; i++){
     SDL_FreeSurface(e[i].sprite);
+    SDL_FreeSurface(e[i].spriteb);
+  }
+}
+
+//One entity
+
+void initEnnemiSimple(Ennemi * e, int i){
+  e->hp = 1;
+  e->type = 1;
+  e->speed = 2;
+  e->range = 20;
+  e->sprite = IMG_Load("Sprite Sheets/Skelly Boy/Walk.png");
+  e->spriteb = IMG_Load("Sprite Sheets/Skelly Boy/Walkb.png");
+  e->posScreen.x = 100 + 200 * i;
+  if(i == 1){
+    e->posScreen.y = 150;
+  }
+  if(i == 2){
+    e->posScreen.y = 500;
+  }
+
+  e->RightBound = e->posScreen.x + 50;
+  e->LeftBound = e->posScreen.x - 50;
+  e->frame = 0;
+  for(int j = 0; j < 4; j++){
+    e->rect[j].x = j * 150;
+    e->rect[j].y = 0;
+    e->rect[j].h = 150;
+    e->rect[j].w = 150;
+  }
+  e->Dir = 1;
+  e->Detected = 0;
+  e->range = 150;
+}
+
+void afficherEnnemiSimple(Ennemi e, SDL_Surface * screen){
+  if(e.Dir == 1){
+    SDL_BlitSurface(e.sprite, &e.rect[e.frame], screen, &e.posScreen);
+  }
+  if(e.Dir == -1){
+    SDL_BlitSurface(e.spriteb, &e.rect[e.frame], screen, &e.posScreen);
+  }
+}
+
+void deplacerSimple(Ennemi * e){
+  switch(e->type){
+    case 1:
+      e->posScreen.x = e->posScreen.x + e->speed * e->Dir;
+      if(e->posScreen.x >= e->RightBound){
+        e->Dir = -1;
+        e->frame = 0;
+      }
+      if(e->posScreen.x <= e->LeftBound){
+        e->Dir = 1;
+        e->frame = 0;
+      }
+      break;
+    case 2:
+      break;
+    case 3:
+      break;
+    default:
+      break;
+  }
+}
+
+int collisionBBSimple(perso p, Ennemi e){
+  int col = 0;
+  if((abs(e.posScreen.x - p.posScreen.x) <= ((e.posScreen.w + p.posSprite.w) / 2))&&(abs(e.posScreen.y - p.posScreen.y) <= ((e.posScreen.h + p.posSprite.h) / 2))){ //Edit this cuz player instantly
+    col = 1;
+  }
+  else col = 0;
+  return col;
+}
+
+void animerEnnemiSimple(Ennemi * e){
+  e->frame++;
+  SDL_Delay(30);
+  if(e->frame > 4){
+    e->frame = 0;
+  }
+}
+
+void LibererSimple(Ennemi e){
+  SDL_FreeSurface(e.sprite);
+  SDL_FreeSurface(e.spriteb);
+}
+
+//AI
+void deplacerAI(Ennemi * e, perso p){
+  int distance = p.posScreen.x - e->posScreen.x;
+  if((abs(distance) <= e->range)&&(mathSign(distance) == e->Dir)){
+    e->Detected = 1;
+  }
+  if(abs(distance) > e->range){
+    e->Detected = 0;
+  }
+  switch(e->Detected){
+    case 0:
+      e->posScreen.x = e->posScreen.x + e->speed * e->Dir;
+      if(e->posScreen.x >= e->RightBound){
+        e->Dir = -1;
+        e->frame = 0;
+      }
+      if(e->posScreen.x <= e->LeftBound){
+        e->Dir = 1;
+        e->frame = 0;
+      }
+      break;
+    case 1:
+      e->Dir = mathSign(distance);
+      e->posScreen.x = e->posScreen.x + e->speed * e->Dir;
+      break;
+    default:
+      break;
   }
 }
