@@ -257,6 +257,7 @@ while(quit == 0)
             if(m == 0){
               Mix_PlayChannel(-1, btnsnd, 0);
               r = 1;
+              quit = 1;
             }
             if(m == 1)
             {

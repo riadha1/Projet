@@ -12,8 +12,8 @@
 int main(int argc, char** argv)
 {
   int r;
-  //r = menu();
-  r = 1;
+  r = menu();
+  //r = 1;
   initLevel(r);
   return 0;
 }
