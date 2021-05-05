@@ -90,9 +90,9 @@ int main(int argc, char** argv)
       animerPerso(&p);
       
       
-      if (p.frame == 5)
+      if (p.frame >= 5)
         p.frame = 0;
-      if (p.frameb == 0)
+      if (p.frameb <= 0)
         p.frameb = 5;
     	
     	SDL_Flip(screen);

@@ -12,7 +12,7 @@ p->num=numperso;
 	p->sprite=IMG_Load("char.png");
     if( p->sprite == NULL )
         {
-        printf( "Can't set video mode: %s\n", SDL_GetError( ) );
+        printf( "Can't sprite: %s\n", SDL_GetError( ) );
         }
 	p->direction=1;
   	p->posScreen.x=0;
