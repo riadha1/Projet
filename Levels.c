@@ -9,6 +9,7 @@
 #include "LevelsHeader.h"
 #include "Entite.h"
 #include "perso.h"
+#include "test.h"
 
 
 
@@ -117,6 +118,32 @@ init(&p,1);
 }
 
 void Demo(int n){
+  //BG Variables
+  SDL_Surface *screen;
+  SDL_Rect positionecran;
+  SDL_Rect camera;
+  background Backg;
+  int done=1;
+  char pause;
+  int x,y;
+  x=0;
+  y=0;
+  camera.x=500;
+  camera.y=0;
+  camera.w=1366;
+  camera.h=768;
+  int b[2]={0,0};
+  const int speed=10;
+
+  initialiser_Background(&Backg);
+  Backg.backgroundImg = IMG_Load("background.png");
+  if(Backg.backgroundImg==NULL)
+  {
+          printf("Unable to load bitmap: %s\n",SDL_GetError());
+
+  }
+  //
+
   int Nbe = 1;
   int colEnt = 0;
   Ennemi e;
@@ -132,7 +159,6 @@ void Demo(int n){
         //printf( "Can't init SDL:  %s\n", SDL_GetError( ) );
     	}
 
-  SDL_Surface *screen;
 	SDL_Event event;
 	perso p;
 	int quit=0;
@@ -152,7 +178,9 @@ init(&p,1);
 	while(quit == 0)
   	{
   		SDL_FillRect( screen, &screen->clip_rect, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
-  		afficherPerso(p, screen);
+      aficherBack( Backg,  screen);
+      SDL_BlitSurface(Backg.backgroundImg,&camera,screen,NULL);
+      afficherPerso(p, screen);
       afficherEnnemiSimple(e, screen);
       afficherEnnemiSimple(eAI, screen);
       animerEnnemiSimple(&e);
@@ -161,7 +189,7 @@ init(&p,1);
       deplacerAI(&eAI, p);
       colEnt = collisionBBSimple(p, e);
     //Event cycle
-		while(SDL_PollEvent(&event))
+while(SDL_PollEvent(&event))
 		{
 			switch(event.type)
       		{
@@ -172,35 +200,82 @@ init(&p,1);
 				break;
 				case SDL_KEYDOWN:
     		if(event.key.keysym.sym == SDLK_RIGHT){
-          p.Signal = 1;
-          p.direction = 1;
-					//right = 1;
-          //printf("right\n");
-    			}
+              p.Signal = 1;
+              p.direction = 1;
+              if(p.posScreen.x >= 683){
+                b[0]=1;
+              }
+    		}
     		if(event.key.keysym.sym == SDLK_LEFT){
-          p.Signal = 1;
-          p.direction = -1;
-					//left = 1;
-          //printf("left\n");
-        	}
-          if(event.key.keysym.sym == SDLK_UP){
+                  p.Signalb = 1;
+                  p.direction = -1;
+                  if(p.posScreen.x >= 683){
+                    b[0]=1;
+                  }
+            }
+            if(event.key.keysym.sym == SDLK_UP){
             	p.isJump = 1;
+              b[0]=2;
+            }
+            if(event.key.keysym.sym == SDLK_DOWN){
+              b[1] = 2;
             }
     		break;
     		case SDL_KEYUP:
-    			if(event.key.keysym.sym == SDLK_UP){
-            	Jump = 0;
+    			   if(event.key.keysym.sym == SDLK_RIGHT)
+             p.Signal = 0;
+             if(p.posScreen.x >= 683){
+               b[0] = 0;
+             }
+            if(event.key.keysym.sym == SDLK_LEFT)
+              p.Signalb = 0;
+              if(p.posScreen.x >= 683){
+                b[1] = 0;
+              }
+            if(event.key.keysym.sym == SDLK_UP){
+              Jump = 0;
+              b[0] = 0;
             }
-					if((event.key.keysym.sym == SDLK_LEFT)||(event.key.keysym.sym == SDLK_RIGHT)){
-							p.Signal = 0;
-						}
+            if(event.key.keysym.sym == SDLK_DOWN){
+              b[1] = 0;
+            }
+
+
     		break;
 				default:
 				break;
 			}
 		}
 		saut(&p);
+    if(p.posScreen.x <= 683){
     	deplacerPerso(&p);
+    }
+    	animerPerso(&p);
+      //BG thing idk
+      if(b[0]==1)
+      {x+=speed;
+      camera.x+=speed;
+      if(camera.x>=3000-1366)
+      camera.x=0;}
+      else if(b[1]==1)
+      {x-=speed;
+      camera.x-=speed;
+      if(camera.x<=0)
+      camera.x=3000-1366;
+      }
+      else if(b[0]==2)
+      {y-=speed;
+      camera.y-=speed;
+      }
+      else if(b[1]==2)
+      {y+=speed;
+      camera.y+=speed;
+      }
+      //
+      if (p.frame >= 5)
+        p.frame = 0;
+      if (p.frameb <= 0)
+        p.frameb = 5;
     	SDL_Flip(screen);
       SDL_Delay(10);
 	}
