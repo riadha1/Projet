@@ -8,7 +8,7 @@
 
 void init(perso* p,int numperso)
 {
-p->num=numperso;
+	p->num=numperso;
 	p->sprite=IMG_Load("Sprite Sheets/char.png");
     if( p->sprite == NULL )
         {

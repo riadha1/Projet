@@ -28,7 +28,7 @@ void setrects(SDL_Rect clips[13][8])
   }
 }
 
-int menu(int * np)
+int menu()
 {
   float s;
   s = 1;
@@ -48,11 +48,7 @@ int menu(int * np)
   strcpy (b[0],"Volume");
   strcpy (b[1],"Fullscreen Off");
   strcpy (b[2],"Back To Menu");
-  char c[3][10];
-      strcpy(c[0], "1 Player");
-      strcpy(c[1], "2 Players");
-      strcpy(c[2], "Back To Menu");
-  SDL_Surface *text1[3],*text2[3],*text3[3],*image,*screen,*bar,*barbg,*skelly;
+  SDL_Surface *text1[3],*text2[3],*image,*screen,*bar,*barbg,*skelly;
   SDL_Rect offset,postext,posvlm,poslid;
   SDL_Event event;
   SDL_Color white={255,255,255},red = {187, 0, 0},grey={128,128,128};
@@ -62,7 +58,7 @@ Mix_OpenAudio(22050,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,4096);
 Mix_Music *music;
 Mix_Chunk *btnsnd;
 btnsnd=Mix_LoadWAV("resources menu/btnsnd.wav");
-music=Mix_LoadMUS("resources menumainmenu.mp3");
+music=Mix_LoadMUS("resources menu/mainmenu.mp3");
 Mix_PlayMusic(music,-1);
 Mix_VolumeMusic(128/2);
   if( TTF_Init() == -1 )
@@ -112,7 +108,6 @@ int kbon = 0;
 int sett = 0;
 int vol=0;
 int FS = 0;
-int NumberPlayers = 0;
 //start of menu cycle
 while(quit == 0)
 {
@@ -136,32 +131,6 @@ while(quit == 0)
   //text & volume render
   for(int i=0;i<3;i++)
   {
-    ///////////////
-    if(sett==2){
-  if(kbon == 0&& mouse!=i)
-        {
-  text3[i]=TTF_RenderText_Blended(font,c[i],white);
-  }
-        else if (kbon ==0 && mouse==i)
-        {
-          text3[i]=TTF_RenderText_Blended(font,c[i],red);
-        }
-  else
-        {
-  if(i == m)
-          {
-  text3[i]=TTF_RenderText_Blended(font,c[i],red);
-  }
-  else if (i!=m)
-          {
-  text3[i]=TTF_RenderText_Blended(font,c[i],white);
-  }}
-  postext.x=310;
-  postext.y=440+i*100;
-  SDL_BlitSurface(text3[i], NULL,screen,&postext);
-
-}
-//////////////////////
     if(sett == 0)
     {
     if(kbon == 0 && mouse!=i)
@@ -228,7 +197,7 @@ while(quit == 0)
       {
       mx=event.motion.x;
       my=event.motion.y;
-      if ((sett==0)||(sett==2))
+      if (sett==0)
       {
       if ((mx>=postext.x)&&(mx<=postext.x+125)&&(my>=440)&&(my<=440+70))
       {
@@ -284,33 +253,11 @@ while(quit == 0)
       {
         switch(sett)
         {
-          case 2:
-              if(m == 0){
-                quit = 1;
-                NumberPlayers = 1;
-              }
-              if(m== 1){
-                quit = 1;
-                NumberPlayers = 2;
-              }
-              if(m == 2){
-                Mix_PlayChannel(-1, btnsnd, 0);
-                sett = 0;
-                for (int i=0;i<3;i++)
-                {
-                  SDL_FreeSurface(text3[i]);
-                }
-              }
-              break;
           case 0:
             if(m == 0){
-               Mix_PlayChannel(-1, btnsnd, 0);
-              sett = 2;
-              printf("\nPlay");
-              for (int i=0;i<3;i++)
-              {
-                SDL_FreeSurface(text1[i]);
-              }
+              Mix_PlayChannel(-1, btnsnd, 0);
+              r = 1;
+              quit = 1;
             }
             if(m == 1)
             {
@@ -520,7 +467,6 @@ while(quit == 0)
   }
   }
   //outside of the menu cycle
-  *np=NumberPlayers;
   SDL_FreeSurface(bar);
   SDL_FreeSurface(barbg);
   SDL_FreeSurface(skelly);
@@ -539,4 +485,95 @@ while(quit == 0)
     SDL_QUIT;
   }
   return r;
+}
+int menu2(){
+
+SDL_Surface *screen,*text1,*text2;
+SDL_Rect pos1,pos2;
+int cont=1;
+SDL_Init( SDL_INIT_VIDEO );
+TTF_Init();
+screen=SDL_SetVideoMode(1920,1080,32,SDL_HWSURFACE||SDL_DOUBLEBUF);
+TTF_Font *font;
+font=TTF_OpenFont("resources menu/souls_font.ttf",90);
+SDL_Event event;
+int mx,my;
+SDL_Color red = {187, 0, 0},grey = {128,128,128};
+pos1.x=100;
+pos1.y=300;
+pos2.x=600;
+pos2.y=300;
+int choix=0;
+
+while(cont){
+   SDL_FillRect( screen, &screen->clip_rect, SDL_MapRGB( screen->format, 0xFF, 0xFF, 0xFF ) );
+   if (choix==0){
+    text1=TTF_RenderText_Blended(font,"Soloplayer",grey);
+    text2=TTF_RenderText_Blended(font,"Multiplayer",grey);
+    SDL_BlitSurface(text1,NULL,screen,&pos1);
+    SDL_BlitSurface(text2,NULL,screen,&pos2);
+      }
+    else if (choix==1){
+      text1=TTF_RenderText_Blended(font,"Soloplayer",red);
+      text2=TTF_RenderText_Blended(font,"Multiplayer",grey);
+      SDL_BlitSurface(text1,NULL,screen,&pos1);
+      SDL_BlitSurface(text2,NULL,screen,&pos2);
+      }
+     else if (choix==2){
+        text1=TTF_RenderText_Blended(font,"Soloplayer",grey);
+        text2=TTF_RenderText_Blended(font,"Multiplayer",red);
+        SDL_BlitSurface(text1,NULL,screen,&pos1);
+        SDL_BlitSurface(text2,NULL,screen,&pos2);
+      }
+
+   while(SDL_PollEvent(&event))
+   {
+    switch(event.type){
+      case SDL_QUIT:
+      {
+        cont = 0;
+      }
+      case SDL_MOUSEMOTION:
+      mx=event.motion.x;
+      my=event.motion.y;
+      if ((mx>=pos1.x)&&(mx<=pos1.x+300)&&(my>=pos1.y)&&(my<=pos1.y+90)){
+        choix=1;
+      }
+      else if ((mx>=pos2.x)&&(mx<=pos2.x+300)&&(my>=pos2.y)&&(my<=pos2.y+90)){
+        choix=2;
+      }
+      else {
+        choix=0;
+      }
+      break;
+      case SDL_MOUSEBUTTONDOWN:
+      if(event.button.button == SDL_BUTTON_LEFT)
+      {
+          if ((choix==1)||(choix==2))
+          cont=0;
+      }
+      break;
+      default:
+      break;
+
+
+    }
+   } 
+
+
+
+SDL_Flip(screen);
+SDL_Delay(100);
+} 
+
+
+SDL_FreeSurface(text1);
+SDL_FreeSurface(text2);
+TTF_CloseFont(font);
+TTF_Quit();
+SDL_QUIT;
+
+return choix;
+
+
 }

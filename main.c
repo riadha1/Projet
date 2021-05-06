@@ -11,11 +11,12 @@
 
 int main(int argc, char** argv)
 {
-  int r,np;
-  np=1;
-  r = menu(&np);
+  	int r,np;
+
+  	r = menu();
+    np =menu2();
   
-  initLevel(r,np);
+ 	initLevel(r,np);
   
   return 0;
 }
