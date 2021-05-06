@@ -9,10 +9,10 @@
 void init(perso* p,int numperso)
 {
 p->num=numperso;
-	p->sprite=IMG_Load("char.png");
+	p->sprite=IMG_Load("Sprite Sheets/char.png");
     if( p->sprite == NULL )
         {
-        printf( "Can't sprite: %s\n", SDL_GetError( ) );
+        printf( "Can't set video mode: %s\n", SDL_GetError( ) );
         }
 	p->direction=1;
   	p->posScreen.x=0;
@@ -39,7 +39,7 @@ void afficherPerso(perso p,SDL_Surface* screen)
 void deplacerPerso(perso *p){
 		
 	if(((p->Signal == 1)||(p->Signalb == 1))&&(p->speed < 10)){
-			p->speed+= 0.15;
+			p->speed+= 0.75;
 		}
 	if((p->Signal == 0)&&(p->Signalb == 0)&&(p->speed > 0)){
 		p->speed-=  0.75;
