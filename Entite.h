@@ -39,6 +39,7 @@ void LibererSimple(Ennemi e);
 //functions for AI
 void deplacerAI(Ennemi * e, perso p);
 
+
 //Misc
 int mathSign(int x);
 

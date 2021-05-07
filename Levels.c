@@ -9,16 +9,32 @@
 #include "LevelsHeader.h"
 #include "Entite.h"
 #include "perso.h"
+#include "lot3.h"
 #include "background.h"
+#include "enigme.h"
+#include "enigmehedi.h"
+#include "enigmed.h"
 
 
 
 
 void initLevel(int n,int np){
+  int hedi=0;
+  int dead=0;
   switch(n){
     case 1:
-    //Level1(n);
-    Demo(n,np);
+    do {
+      hedi=0;
+    mainenigme();
+    dead=Demo(n,np);
+    if(dead==1)
+    {
+    hedi=mainhedi();
+    }
+  }while(hedi==1);
+  	if (dead==0){
+  	maindali();
+  	}
       break;
     case 2:
       break;
@@ -29,11 +45,17 @@ void initLevel(int n,int np){
   }
 }
 
-void Demo(int n,int np){
+int Demo(int n,int np){
 
-  SDL_Surface *screen;
+  int dead=0;
+  SDL_Surface *screen,*mask,*timer;
+  SDL_Rect postimer;
+  postimer.x=10;
+  postimer.y=10;
+  minimap m;
   int Nbe = 1;
   int colEnt = 0;
+  int colEnt2 = 0;
   Ennemi e;
   Ennemi eAI;
   //bg
@@ -53,6 +75,10 @@ void Demo(int n,int np){
 // init audio 
       if(Mix_OpenAudio(44100,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,1024)==-1) 
         printf("%s",Mix_GetError());
+    // init ttf
+    TTF_Init();
+	TTF_Font *font=TTF_OpenFont("resources menu/souls_font.ttf",90);
+	SDL_Color white={255,255,255};
 
 	SDL_Event event;
 	perso p,p2;
@@ -60,6 +86,11 @@ void Demo(int n,int np){
 	int Jump = 0;
 	int right = 0;
 	int left = 0;
+  	char ch[10];
+  	Uint32 start;
+  	int time;
+
+   mask=IMG_Load("resources minimap/mask.png");
 
 	screen = SDL_SetVideoMode( 1366, 768, 32, SDL_HWSURFACE | SDL_RESIZABLE);
   if( screen == NULL )
@@ -68,17 +99,30 @@ void Demo(int n,int np){
     	}
 initBack(&b,resx,resy);
 init(&p,1);
+initmap(&m);
 if(np==2)
 {
   init(&p2,2);
   p2.posScreen.x=700;
 }
 SDL_EnableKeyRepeat(30,30);
+start=SDL_GetTicks();
+
 //Main while cycle
 	while(quit == 0)
-  	{
+  	{ 
+  		
+  		displaytime(&time);
+  		sprintf(ch,"%d",time-((int)start/1000));
+  		timer=TTF_RenderText_Blended(font,ch,white);
+
+
+  		
   		aficherBack(b,screen,resx,resy,np);
+  		SDL_BlitSurface(timer,NULL,screen,&postimer);
       afficherPerso(p, screen);
+      m.posminimc=MAJminimap(p,&m,10,b.camerasolo);
+      displaymap(m,screen);
       if (np == 2){
       afficherPerso(p2, screen);
       }
@@ -89,6 +133,7 @@ SDL_EnableKeyRepeat(30,30);
       deplacerSimple(&e);
       deplacerAI(&eAI, p);
       colEnt = collisionBBSimple(p, e);
+      colEnt2 = collisionBBSimple(p, eAI);
     //Event cycle
 while(SDL_PollEvent(&event))
 		{
@@ -97,6 +142,7 @@ while(SDL_PollEvent(&event))
 				case SDL_QUIT:
         		{
          				quit = 1;
+         				dead=-1;
 				}
 				break;
 				case SDL_KEYDOWN:
@@ -174,13 +220,37 @@ while(SDL_PollEvent(&event))
 				break;
 			}
 		}
-		
+      
+
+
+    	if (b.camerasolo.x >= 3000-(1376))
+    	{
+    		quit=1;
+
+    	}
+
+    	/*if(collisionMC(p,mask)==1)
+    	{
+    	dead=1;
+    	quit=1;
+    	}*/
+
+
+      if ((colEnt == 1)||(colEnt2 == 1))
+      { 
+       dead=1;
+       quit=1;
+
+      
+      }  
+      printf("%d\n%d\n",colEnt,colEnt2);  		
       
       if( np == 1){
         if (p.posScreen.x<=1366/2)
         deplacerPerso(&p);
        else 
-        scrollingsolo(&b,direction,vitesse);
+        scrollingsolo(&b,&e,&eAI,direction,vitesse);
+
     }
       
       if ( np == 2){
@@ -216,8 +286,7 @@ while(SDL_PollEvent(&event))
         saut(&p2);
       }
     
-    	
-    	
+    
       
      
     	SDL_Flip(screen);
@@ -227,5 +296,7 @@ while(SDL_PollEvent(&event))
     SDL_FreeSurface(p.sprite);
     LibererSimple(e);
     LibererSimple(eAI);
+    freeminimap(&m);
     SDL_Quit();
+    return dead;
 }

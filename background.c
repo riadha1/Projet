@@ -1,4 +1,5 @@
 #include "background.h"
+#include "Entite.h"
 
 void initBack(background * b,int x,int y){
     b->image=IMG_Load("background resources/stage1.png");
@@ -41,16 +42,34 @@ void aficherBack(background b, SDL_Surface * screen,int x,int y,int np){
 
 }
 
-void scrollingsolo (background * b, int direction, int pasAvancement){
+void scrollingsolo (background * b,Ennemi *e,Ennemi *eAI, int direction, int pasAvancement){
   
        switch (direction)
     {
     case 'R':
-        if (b->camerasolo.x <= 3000-(1366)) b->camerasolo.x += pasAvancement ;
+        if (b->camerasolo.x <= 3000-(1366)) 
+            {
+                b->camerasolo.x += pasAvancement ;
+                e->posScreen.x -= pasAvancement;
+                eAI->posScreen.x -= pasAvancement;
+               e->RightBound -= pasAvancement;
+               e->LeftBound -= pasAvancement;
+                eAI->RightBound -= pasAvancement;
+               eAI->LeftBound -= pasAvancement;
+            }       
         break;
     
     case 'L':
-        if (b->camerasolo.x >= 1366/2) b->camerasolo.x -= pasAvancement;
+        if (b->camerasolo.x >= 0) 
+            {
+                b->camerasolo.x -= pasAvancement;
+                e->posScreen.x += pasAvancement;
+                eAI->posScreen.x += pasAvancement;
+                e->RightBound += pasAvancement;
+                e->LeftBound += pasAvancement;
+                eAI->RightBound += pasAvancement;
+               eAI->LeftBound += pasAvancement;
+            }
         break;
     /*case 'U':
         if (b->camerasolo.y >= 0) b->camerasolo.y  -= pasAvancement;

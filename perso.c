@@ -16,7 +16,7 @@ void init(perso* p,int numperso)
         }
 	p->direction=1;
   	p->posScreen.x=0;
-	p->posScreen.y=500;
+	p->posScreen.y=635;
 	p->posSprite.x=0;
 	p->posSprite.y=0;
 	p->posSprite.h =37 ;

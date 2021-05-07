@@ -271,6 +271,7 @@ while(quit == 0)
             if(m == 2)
             {
               Mix_PlayChannel(-1, btnsnd, 0);
+              r=0;
               quit = 1;
             }
           break;
@@ -320,6 +321,7 @@ while(quit == 0)
     }
       case SDL_QUIT:
       {
+        r=0;
         quit = 1;
       }
       break;
@@ -416,6 +418,7 @@ while(quit == 0)
               }
               if(m == 2)
               {
+                r=0;
                 quit = 1;
               }
             break;

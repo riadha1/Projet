@@ -82,6 +82,7 @@ int collisionBB( perso p, Ennemi e[]){
     }
     else col = 0;
   }
+  printf("%d\n",col);
   return col;
 }
 
@@ -111,12 +112,14 @@ void initEnnemiSimple(Ennemi * e, int i){
   e->range = 20;
   e->sprite = IMG_Load("Sprite Sheets/Skelly Boy/Walk.png");
   e->spriteb = IMG_Load("Sprite Sheets/Skelly Boy/Walkb.png");
-  e->posScreen.x = 100 + 200 * i;
+  
   if(i == 1){
-    e->posScreen.y = 150;
+  	e->posScreen.x = 1500 ;
+    e->posScreen.y = 580;
   }
   if(i == 2){
-    e->posScreen.y = 500;
+  	e->posScreen.x = 2000 ;
+    e->posScreen.y = 580;
   }
 
   e->RightBound = e->posScreen.x + 50;
@@ -166,8 +169,9 @@ void deplacerSimple(Ennemi * e){
 
 int collisionBBSimple(perso p, Ennemi e){
   int col = 0;
-  if((abs(e.posScreen.x - p.posScreen.x) <= ((e.posScreen.w + p.posSprite.w) / 2))&&(abs(e.posScreen.y - p.posScreen.y) <= ((e.posScreen.h + p.posSprite.h) / 2))){ //Edit this cuz player instantly
-    col = 1;
+ // if((abs(e.posScreen.x - p.posScreen.x) <= ((e.posScreen.w + p.posSprite.w) / 2))&&(abs(e.posScreen.y - p.posScreen.y) <= ((e.posScreen.h + p.posSprite.h) / 2))){ //Edit this cuz player instantly
+   if((abs(e.posScreen.x - p.posScreen.x) <= 20)&&(p.isJump == 0)){
+   col = 1;
   }
   else col = 0;
   return col;
@@ -176,7 +180,7 @@ int collisionBBSimple(perso p, Ennemi e){
 void animerEnnemiSimple(Ennemi * e){
   e->frame++;
   SDL_Delay(30);
-  if(e->frame > 4){
+  if(e->frame > 3){
     e->frame = 0;
   }
 }
@@ -215,3 +219,4 @@ void deplacerAI(Ennemi * e, perso p){
       break;
   }
 }
+

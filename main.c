@@ -12,11 +12,14 @@
 int main(int argc, char** argv)
 {
   	int r,np;
-
+do {
+	r=0;
   	r = menu();
+  	if (r==1){
     np =menu2();
-  
+  	}
  	initLevel(r,np);
+ }while(r != 0);
   
   return 0;
 }
