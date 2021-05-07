@@ -7,6 +7,7 @@
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
 #include <SDL/SDL_mixer.h>
+#include "Entite.h"
 
 typedef struct background
 	{
@@ -18,7 +19,7 @@ typedef struct background
 
 void initBack(background * b, int x,int y);
 void aficherBack(background b, SDL_Surface * screen,int x,int y,int np);
-void scrollingsolo (background * b, int direction, int pasAvancement);
+void scrollingsolo (background * b,Ennemi *e,Ennemi *eAI, int direction, int pasAvancement);
 void scrolling (background * b, int direction, int pasAvancement); 
 void scrolling2 (background * b, int direction, int pasAvancement);
 
