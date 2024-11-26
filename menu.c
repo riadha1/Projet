@@ -140,7 +140,8 @@ while(quit == 0)
     {
       text1[i]=TTF_RenderText_Blended(font,a[i],red);
     }
-    else{
+    else
+    {
       if(i == m)
       {
         text1[i]=TTF_RenderText_Blended(font,a[i],red);
